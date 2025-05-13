@@ -1,311 +1,126 @@
-{
-  "nbformat": 4,
-  "nbformat_minor": 0,
-  "metadata": {
-    "colab": {
-      "provenance": [],
-      "authorship_tag": "ABX9TyOlMvWo5kZpxa/zwk+Xqxrh",
-      "include_colab_link": true
-    },
-    "kernelspec": {
-      "name": "python3",
-      "display_name": "Python 3"
-    },
-    "language_info": {
-      "name": "python"
-    }
-  },
-  "cells": [
-    {
-      "cell_type": "markdown",
-      "metadata": {
-        "id": "view-in-github",
-        "colab_type": "text"
-      },
-      "source": [
-        "<a href=\"https://colab.research.google.com/github/sanketkute7/mugiwara/blob/main/app.py\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
-      ]
-    },
-    {
-      "cell_type": "code",
-      "source": [
-        "!pip install streamlit"
-      ],
-      "metadata": {
-        "colab": {
-          "base_uri": "https://localhost:8080/"
-        },
-        "id": "SfWl3cDXWc4Z",
-        "outputId": "f8ab42b5-0381-4a0e-b468-85a357d55ca4"
-      },
-      "execution_count": 3,
-      "outputs": [
-        {
-          "output_type": "stream",
-          "name": "stdout",
-          "text": [
-            "Collecting streamlit\n",
-            "  Downloading streamlit-1.45.1-py3-none-any.whl.metadata (8.9 kB)\n",
-            "Requirement already satisfied: altair<6,>=4.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (5.5.0)\n",
-            "Requirement already satisfied: blinker<2,>=1.5.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (1.9.0)\n",
-            "Requirement already satisfied: cachetools<6,>=4.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (5.5.2)\n",
-            "Requirement already satisfied: click<9,>=7.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (8.1.8)\n",
-            "Requirement already satisfied: numpy<3,>=1.23 in /usr/local/lib/python3.11/dist-packages (from streamlit) (2.0.2)\n",
-            "Requirement already satisfied: packaging<25,>=20 in /usr/local/lib/python3.11/dist-packages (from streamlit) (24.2)\n",
-            "Requirement already satisfied: pandas<3,>=1.4.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (2.2.2)\n",
-            "Requirement already satisfied: pillow<12,>=7.1.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (11.2.1)\n",
-            "Requirement already satisfied: protobuf<7,>=3.20 in /usr/local/lib/python3.11/dist-packages (from streamlit) (5.29.4)\n",
-            "Requirement already satisfied: pyarrow>=7.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (18.1.0)\n",
-            "Requirement already satisfied: requests<3,>=2.27 in /usr/local/lib/python3.11/dist-packages (from streamlit) (2.32.3)\n",
-            "Requirement already satisfied: tenacity<10,>=8.1.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (9.1.2)\n",
-            "Requirement already satisfied: toml<2,>=0.10.1 in /usr/local/lib/python3.11/dist-packages (from streamlit) (0.10.2)\n",
-            "Requirement already satisfied: typing-extensions<5,>=4.4.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (4.13.2)\n",
-            "Collecting watchdog<7,>=2.1.5 (from streamlit)\n",
-            "  Downloading watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl.metadata (44 kB)\n",
-            "\u001b[2K     \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m44.3/44.3 kB\u001b[0m \u001b[31m2.6 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
-            "\u001b[?25hRequirement already satisfied: gitpython!=3.1.19,<4,>=3.0.7 in /usr/local/lib/python3.11/dist-packages (from streamlit) (3.1.44)\n",
-            "Collecting pydeck<1,>=0.8.0b4 (from streamlit)\n",
-            "  Downloading pydeck-0.9.1-py2.py3-none-any.whl.metadata (4.1 kB)\n",
-            "Requirement already satisfied: tornado<7,>=6.0.3 in /usr/local/lib/python3.11/dist-packages (from streamlit) (6.4.2)\n",
-            "Requirement already satisfied: jinja2 in /usr/local/lib/python3.11/dist-packages (from altair<6,>=4.0->streamlit) (3.1.6)\n",
-            "Requirement already satisfied: jsonschema>=3.0 in /usr/local/lib/python3.11/dist-packages (from altair<6,>=4.0->streamlit) (4.23.0)\n",
-            "Requirement already satisfied: narwhals>=1.14.2 in /usr/local/lib/python3.11/dist-packages (from altair<6,>=4.0->streamlit) (1.38.0)\n",
-            "Requirement already satisfied: gitdb<5,>=4.0.1 in /usr/local/lib/python3.11/dist-packages (from gitpython!=3.1.19,<4,>=3.0.7->streamlit) (4.0.12)\n",
-            "Requirement already satisfied: python-dateutil>=2.8.2 in /usr/local/lib/python3.11/dist-packages (from pandas<3,>=1.4.0->streamlit) (2.9.0.post0)\n",
-            "Requirement already satisfied: pytz>=2020.1 in /usr/local/lib/python3.11/dist-packages (from pandas<3,>=1.4.0->streamlit) (2025.2)\n",
-            "Requirement already satisfied: tzdata>=2022.7 in /usr/local/lib/python3.11/dist-packages (from pandas<3,>=1.4.0->streamlit) (2025.2)\n",
-            "Requirement already satisfied: charset-normalizer<4,>=2 in /usr/local/lib/python3.11/dist-packages (from requests<3,>=2.27->streamlit) (3.4.2)\n",
-            "Requirement already satisfied: idna<4,>=2.5 in /usr/local/lib/python3.11/dist-packages (from requests<3,>=2.27->streamlit) (3.10)\n",
-            "Requirement already satisfied: urllib3<3,>=1.21.1 in /usr/local/lib/python3.11/dist-packages (from requests<3,>=2.27->streamlit) (2.4.0)\n",
-            "Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.11/dist-packages (from requests<3,>=2.27->streamlit) (2025.4.26)\n",
-            "Requirement already satisfied: smmap<6,>=3.0.1 in /usr/local/lib/python3.11/dist-packages (from gitdb<5,>=4.0.1->gitpython!=3.1.19,<4,>=3.0.7->streamlit) (5.0.2)\n",
-            "Requirement already satisfied: MarkupSafe>=2.0 in /usr/local/lib/python3.11/dist-packages (from jinja2->altair<6,>=4.0->streamlit) (3.0.2)\n",
-            "Requirement already satisfied: attrs>=22.2.0 in /usr/local/lib/python3.11/dist-packages (from jsonschema>=3.0->altair<6,>=4.0->streamlit) (25.3.0)\n",
-            "Requirement already satisfied: jsonschema-specifications>=2023.03.6 in /usr/local/lib/python3.11/dist-packages (from jsonschema>=3.0->altair<6,>=4.0->streamlit) (2025.4.1)\n",
-            "Requirement already satisfied: referencing>=0.28.4 in /usr/local/lib/python3.11/dist-packages (from jsonschema>=3.0->altair<6,>=4.0->streamlit) (0.36.2)\n",
-            "Requirement already satisfied: rpds-py>=0.7.1 in /usr/local/lib/python3.11/dist-packages (from jsonschema>=3.0->altair<6,>=4.0->streamlit) (0.24.0)\n",
-            "Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.11/dist-packages (from python-dateutil>=2.8.2->pandas<3,>=1.4.0->streamlit) (1.17.0)\n",
-            "Downloading streamlit-1.45.1-py3-none-any.whl (9.9 MB)\n",
-            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m9.9/9.9 MB\u001b[0m \u001b[31m61.2 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
-            "\u001b[?25hDownloading pydeck-0.9.1-py2.py3-none-any.whl (6.9 MB)\n",
-            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m6.9/6.9 MB\u001b[0m \u001b[31m73.4 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
-            "\u001b[?25hDownloading watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl (79 kB)\n",
-            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m79.1/79.1 kB\u001b[0m \u001b[31m7.5 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
-            "\u001b[?25hInstalling collected packages: watchdog, pydeck, streamlit\n",
-            "Successfully installed pydeck-0.9.1 streamlit-1.45.1 watchdog-6.0.0\n"
-          ]
-        }
-      ]
-    },
-    {
-      "cell_type": "code",
-      "execution_count": 9,
-      "metadata": {
-        "colab": {
-          "base_uri": "https://localhost:8080/"
-        },
-        "id": "6Y6VlaHUWa10",
-        "outputId": "e74df48f-ab1c-49f9-a0c5-c64f0ce011fa"
-      },
-      "outputs": [
-        {
-          "output_type": "stream",
-          "name": "stderr",
-          "text": [
-            "[nltk_data] Downloading package punkt to /root/nltk_data...\n",
-            "[nltk_data]   Package punkt is already up-to-date!\n",
-            "2025-05-13 06:40:43.290 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
-            "2025-05-13 06:40:43.291 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
-            "2025-05-13 06:40:43.292 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
-            "2025-05-13 06:40:43.293 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
-            "2025-05-13 06:40:43.294 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
-            "2025-05-13 06:40:43.295 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
-            "2025-05-13 06:40:43.296 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
-            "2025-05-13 06:40:43.297 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
-            "2025-05-13 06:40:43.297 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
-            "2025-05-13 06:40:43.298 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
-            "2025-05-13 06:40:43.299 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
-            "2025-05-13 06:40:43.301 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
-            "2025-05-13 06:40:43.301 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
-            "2025-05-13 06:40:43.302 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
-            "2025-05-13 06:40:43.303 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
-            "2025-05-13 06:40:43.304 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n"
-          ]
-        }
-      ],
-      "source": [
-        "import streamlit as st\n",
-        "import pandas as pd\n",
-        "import numpy as np\n",
-        "import ast\n",
-        "from sklearn.feature_extraction.text import CountVectorizer\n",
-        "from sklearn.metrics.pairwise import cosine_similarity\n",
-        "from nltk.stem.porter import PorterStemmer\n",
-        "import nltk\n",
-        "\n",
-        "# Ensure NLTK packages are downloaded\n",
-        "nltk.download('punkt')\n",
-        "\n",
-        "# ========== Load and Preprocess Your Data ==========\n",
-        "@st.cache_resource\n",
-        "def load_data():\n",
-        "    # Load your data\n",
-        "    movies = pd.read_csv('/content/drive/MyDrive/ML_dataset/tmdb_5000_movies.csv')\n",
-        "    credits = pd.read_csv('/content/drive/MyDrive/ML_dataset/tmdb_5000_credits.csv')\n",
-        "\n",
-        "    # Merge datasets\n",
-        "    movies = movies.merge(credits, on='title')\n",
-        "\n",
-        "    # Keep relevant columns\n",
-        "    movies = movies[['movie_id','title','overview','genres','keywords','cast','crew']]\n",
-        "\n",
-        "    # Drop nulls\n",
-        "    movies.dropna(inplace=True)\n",
-        "\n",
-        "    def convert(obj):\n",
-        "        L = []\n",
-        "        for i in ast.literal_eval(obj):\n",
-        "            L.append(i['name'])\n",
-        "        return L\n",
-        "\n",
-        "    def convert3(obj):\n",
-        "        L = []\n",
-        "        counter = 0\n",
-        "        for i in ast.literal_eval(obj):\n",
-        "            if counter != 3:\n",
-        "                L.append(i['name'])\n",
-        "                counter += 1\n",
-        "            else:\n",
-        "                break\n",
-        "        return L\n",
-        "\n",
-        "    def fetch_director(obj):\n",
-        "        L = []\n",
-        "        for i in ast.literal_eval(obj):\n",
-        "            if i['job'] == 'Director':\n",
-        "                L.append(i['name'])\n",
-        "                break\n",
-        "        return L\n",
-        "\n",
-        "    ps = PorterStemmer()\n",
-        "\n",
-        "    def stem(text):\n",
-        "        y = []\n",
-        "        for i in text.split():\n",
-        "            y.append(ps.stem(i))\n",
-        "        return \" \".join(y)\n",
-        "\n",
-        "    # Apply conversions\n",
-        "    movies['genres'] = movies['genres'].apply(convert)\n",
-        "    movies['keywords'] = movies['keywords'].apply(convert)\n",
-        "    movies['cast'] = movies['cast'].apply(convert3)\n",
-        "    movies['crew'] = movies['crew'].apply(fetch_director)\n",
-        "    movies['overview'] = movies['overview'].apply(lambda x: x.split())\n",
-        "\n",
-        "    for feature in ['genres', 'keywords', 'cast', 'crew']:\n",
-        "        movies[feature] = movies[feature].apply(lambda x: [i.replace(\" \", \"\") for i in x])\n",
-        "\n",
-        "    movies['tags'] = movies['overview'] + movies['genres'] + movies['keywords'] + movies['cast'] + movies['crew']\n",
-        "    df = movies[['movie_id', 'title', 'tags']]\n",
-        "    df['tags'] = df['tags'].apply(lambda x: \" \".join(x).lower())\n",
-        "    df['tags'] = df['tags'].apply(stem)\n",
-        "\n",
-        "    # Vectorize\n",
-        "    cv = CountVectorizer(max_features=5000, stop_words='english')\n",
-        "    vectors = cv.fit_transform(df['tags']).toarray()\n",
-        "\n",
-        "    similarity = cosine_similarity(vectors)\n",
-        "\n",
-        "    return df, similarity\n",
-        "\n",
-        "df, similarity = load_data()\n",
-        "\n",
-        "# ========== Streamlit UI ==========\n",
-        "st.set_page_config(page_title=\"Movie Recommender\", layout=\"centered\")\n",
-        "st.title(\"🎬 Movie Recommendation System\")\n",
-        "st.markdown(\"Get top 5 similar movies based on your favorite film.\")\n",
-        "\n",
-        "movie_input = st.text_input(\"Enter a movie name:\")\n",
-        "\n",
-        "if st.button(\"Recommend\"):\n",
-        "    if movie_input.strip() == \"\":\n",
-        "        st.warning(\"Please enter a movie name.\")\n",
-        "    elif movie_input not in df['title'].values:\n",
-        "        st.error(\"Movie not found in database. Try another title.\")\n",
-        "    else:\n",
-        "        movie_index = df[df['title'] == movie_input].index[0]\n",
-        "        distances = similarity[movie_index]\n",
-        "        movie_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x: x[1])[1:6]\n",
-        "        st.success(\"Top 5 recommendations:\")\n",
-        "        for i in movie_list:\n",
-        "            st.write(f\" {df.iloc[i[0]].title}\")\n"
-      ]
-    },
-    {
-      "cell_type": "code",
-      "execution_count": 5,
-      "metadata": {
-        "id": "dC9AOZMNj581"
-      },
-      "outputs": [],
-      "source": [
-        "from google.colab import drive"
-      ]
-    },
-    {
-      "cell_type": "code",
-      "source": [
-        "drive.mount('/content/drive')"
-      ],
-      "metadata": {
-        "colab": {
-          "base_uri": "https://localhost:8080/"
-        },
-        "id": "c6d2VMOnj-oF",
-        "outputId": "8bf5f608-a9dd-45ce-f66e-8a79f2fcc70c"
-      },
-      "execution_count": 6,
-      "outputs": [
-        {
-          "output_type": "stream",
-          "name": "stdout",
-          "text": [
-            "Mounted at /content/drive\n"
-          ]
-        }
-      ]
-    },
-    {
-      "cell_type": "code",
-      "source": [
-        "movies = pd.read_csv('/content/drive/MyDrive/ML_dataset/tmdb_5000_movies.csv')\n",
-        "credits = pd.read_csv('/content/drive/MyDrive/ML_dataset/tmdb_5000_credits.csv')"
-      ],
-      "metadata": {
-        "id": "6q4_hA9sn80B"
-      },
-      "execution_count": 7,
-      "outputs": []
-    },
-    {
-      "cell_type": "code",
-      "source": [
-        "\n"
-      ],
-      "metadata": {
-        "id": "dQRqJDKgW7ZW"
-      },
-      "execution_count": 10,
-      "outputs": []
-    },
-    {
-      "cell_type": "code",
-      "source": [],
-      "metadata": {
-        "id": "m94SeHz8k3Wl"
-      },
-      "execution_count": null,
-      "outputs": []
-    }
-  ]
-}
+# -*- coding: utf-8 -*-
+"""app.ipynb
+
+Automatically generated by Colab.
+
+Original file is located at
+    https://colab.research.google.com/drive/1Svz30Guo77ZWCEqfGcF8mOAlKyKLbH2Q
+"""
+
+!pip install streamlit
+
+import streamlit as st
+import pandas as pd
+import numpy as np
+import ast
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+from nltk.stem.porter import PorterStemmer
+import nltk
+
+# Ensure NLTK packages are downloaded
+nltk.download('punkt')
+
+# ========== Load and Preprocess Your Data ==========
+@st.cache_resource
+def load_data():
+    # Load your data
+    movies = pd.read_csv('/content/drive/MyDrive/ML_dataset/tmdb_5000_movies.csv')
+    credits = pd.read_csv('/content/drive/MyDrive/ML_dataset/tmdb_5000_credits.csv')
+
+    # Merge datasets
+    movies = movies.merge(credits, on='title')
+
+    # Keep relevant columns
+    movies = movies[['movie_id','title','overview','genres','keywords','cast','crew']]
+
+    # Drop nulls
+    movies.dropna(inplace=True)
+
+    def convert(obj):
+        L = []
+        for i in ast.literal_eval(obj):
+            L.append(i['name'])
+        return L
+
+    def convert3(obj):
+        L = []
+        counter = 0
+        for i in ast.literal_eval(obj):
+            if counter != 3:
+                L.append(i['name'])
+                counter += 1
+            else:
+                break
+        return L
+
+    def fetch_director(obj):
+        L = []
+        for i in ast.literal_eval(obj):
+            if i['job'] == 'Director':
+                L.append(i['name'])
+                break
+        return L
+
+    ps = PorterStemmer()
+
+    def stem(text):
+        y = []
+        for i in text.split():
+            y.append(ps.stem(i))
+        return " ".join(y)
+
+    # Apply conversions
+    movies['genres'] = movies['genres'].apply(convert)
+    movies['keywords'] = movies['keywords'].apply(convert)
+    movies['cast'] = movies['cast'].apply(convert3)
+    movies['crew'] = movies['crew'].apply(fetch_director)
+    movies['overview'] = movies['overview'].apply(lambda x: x.split())
+
+    for feature in ['genres', 'keywords', 'cast', 'crew']:
+        movies[feature] = movies[feature].apply(lambda x: [i.replace(" ", "") for i in x])
+
+    movies['tags'] = movies['overview'] + movies['genres'] + movies['keywords'] + movies['cast'] + movies['crew']
+    df = movies[['movie_id', 'title', 'tags']]
+    df['tags'] = df['tags'].apply(lambda x: " ".join(x).lower())
+    df['tags'] = df['tags'].apply(stem)
+
+    # Vectorize
+    cv = CountVectorizer(max_features=5000, stop_words='english')
+    vectors = cv.fit_transform(df['tags']).toarray()
+
+    similarity = cosine_similarity(vectors)
+
+    return df, similarity
+
+df, similarity = load_data()
+
+# ========== Streamlit UI ==========
+st.set_page_config(page_title="Movie Recommender", layout="centered")
+st.title("🎬 Movie Recommendation System")
+st.markdown("Get top 5 similar movies based on your favorite film.")
+
+movie_input = st.text_input("Enter a movie name:")
+
+if st.button("Recommend"):
+    if movie_input.strip() == "":
+        st.warning("Please enter a movie name.")
+    elif movie_input not in df['title'].values:
+        st.error("Movie not found in database. Try another title.")
+    else:
+        movie_index = df[df['title'] == movie_input].index[0]
+        distances = similarity[movie_index]
+        movie_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x: x[1])[1:6]
+        st.success("Top 5 recommendations:")
+        for i in movie_list:
+            st.write(f" {df.iloc[i[0]].title}")
+
+from google.colab import drive
+
+drive.mount('/content/drive')
+
+movies = pd.read_csv('/content/drive/MyDrive/ML_dataset/tmdb_5000_movies.csv')
+credits = pd.read_csv('/content/drive/MyDrive/ML_dataset/tmdb_5000_credits.csv')
+
+
+
